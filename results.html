@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Diet Recommendation</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Diet Recommendation</h1>
+        <p><strong>Name:</strong> <span id="name"></span></p>
+        <p><strong>Gender:</strong> <span id="gender"></span></p>
+        <p><strong>Recommended Diet:</strong></p>
+        <div class="diet-content" id="diet"></div>
+    </div>
+
+    <script>
+        const result = JSON.parse(localStorage.getItem('result'));
+        document.getElementById('name').textContent = result.name;
+        document.getElementById('gender').textContent = result.gender;
+        document.getElementById('diet').textContent = result.diet;
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Health Check</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Health Check Form</h1>
+        <form id="healthForm">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="number" name="height" placeholder="Height (cm)" required>
+            <input type="number" name="weight" placeholder="Weight (kg)" required>
+            <input type="number" name="age" placeholder="Age" required>
+            <select name="gender" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <input type="email" name="email" placeholder="Email (optional)">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    
+    
+    <script>
+        const form = document.getElementById('healthForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch('https://healthfunc.azurewebsites.net/api/HealthApp', { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    localStorage.setItem('result', JSON.stringify(result));
+                    window.location.href = 'results.html';
+                } else {
+                    const errorText = await response.text();
+                    console.error('Server error:', errorText);
+                    alert('Error: ' + errorText);
+                }
+            } catch (error) {
+                console.error('Submission failed:', error);
+                alert('Something went wrong! Please check the console for more details.');
+            }
+        });
+    </script>
